@@ -1,0 +1,10 @@
+# Python
+backend/.venv/
+backend/.pytest_cache/
+__pycache__/
+
+# Model weights (multi-GB, gated license) and user data stay local
+backend/models/
+backend/data/
+
+.DS_Store

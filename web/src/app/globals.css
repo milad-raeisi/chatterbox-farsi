@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Digits-only font derived from Vazirmatn (OFL): draws 0-9 as Persian digits, so animated
+   counters from Animate UI read naturally in Persian. See src/fonts/OFL-Vazirmatn.txt */
+@font-face {
+  font-family: "Ava Digits";
+  src: url("../fonts/ava-digits.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --font-sans: "Vazirmatn Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-digits: "Ava Digits", "Vazirmatn Variable", ui-sans-serif, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-turquoise: var(--turquoise);
+  --color-lapis: var(--lapis);
+  --color-gold: var(--gold);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 10px);
+  --radius-3xl: calc(var(--radius) + 16px);
+}
+
+/* Palette: Persian turquoise (فیروزه‌ای), lapis (لاجوردی) and gold (طلایی). */
+:root {
+  --radius: 0.85rem;
+  --background: oklch(0.982 0.008 85);
+  --foreground: oklch(0.24 0.045 262);
+  --card: oklch(1 0 0 / 0.74);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.995 0.004 85);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.58 0.11 192);
+  --primary-foreground: oklch(0.99 0.01 190);
+  --secondary: oklch(0.94 0.02 255);
+  --secondary-foreground: oklch(0.33 0.11 264);
+  --muted: oklch(0.95 0.012 85);
+  --muted-foreground: oklch(0.5 0.03 262);
+  --accent: oklch(0.94 0.035 192);
+  --accent-foreground: oklch(0.32 0.07 200);
+  --destructive: oklch(0.57 0.21 27);
+  --border: oklch(0.24 0.045 262 / 0.11);
+  --input: oklch(0.24 0.045 262 / 0.16);
+  --ring: oklch(0.58 0.11 192);
+  --turquoise: oklch(0.66 0.12 190);
+  --lapis: oklch(0.45 0.16 266);
+  --gold: oklch(0.74 0.13 75);
+  --success: oklch(0.6 0.14 155);
+  --warning: oklch(0.72 0.15 70);
+  --glass-shadow: 0 1px 0 0 oklch(1 0 0 / 0.6) inset, 0 24px 60px -28px oklch(0.3 0.08 262 / 0.35);
+}
+
+.dark {
+  --background: oklch(0.155 0.03 266);
+  --foreground: oklch(0.95 0.012 85);
+  --card: oklch(0.21 0.035 266 / 0.66);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.21 0.035 266);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.79 0.12 189);
+  --primary-foreground: oklch(0.2 0.045 225);
+  --secondary: oklch(0.28 0.055 266);
+  --secondary-foreground: oklch(0.92 0.025 250);
+  --muted: oklch(0.255 0.035 266);
+  --muted-foreground: oklch(0.73 0.03 262);
+  --accent: oklch(0.31 0.06 205);
+  --accent-foreground: oklch(0.93 0.045 190);
+  --destructive: oklch(0.68 0.19 25);
+  --border: oklch(1 0 0 / 0.09);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(0.79 0.12 189);
+  --turquoise: oklch(0.8 0.12 189);
+  --lapis: oklch(0.64 0.15 268);
+  --gold: oklch(0.83 0.12 80);
+  --success: oklch(0.75 0.15 155);
+  --warning: oklch(0.82 0.14 75);
+  --glass-shadow: 0 1px 0 0 oklch(1 0 0 / 0.06) inset, 0 30px 70px -30px oklch(0 0 0 / 0.65);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 32%, transparent);
+  }
+  textarea::placeholder {
+    @apply text-muted-foreground/70;
+  }
+}
+
+@utility glass {
+  background: var(--card);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+}
+
+/* Girih (گره‌چینی) eight-point star lattice; mask-based so it takes the theme colour. */
+@utility girih {
+  background-color: var(--foreground);
+  mask-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'><g fill='none' stroke='black' stroke-width='1'><rect x='27' y='27' width='34' height='34'/><rect x='27' y='27' width='34' height='34' transform='rotate(45 44 44)'/><path d='M0 44h10M78 44h10M44 0v10M44 78v10'/><circle cx='44' cy='44' r='6'/></g></svg>"),
+    radial-gradient(ellipse at top, black 0%, transparent 70%);
+  mask-size: 88px 88px, 100% 100%;
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
