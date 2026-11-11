@@ -21,7 +21,7 @@ export function Footer() {
   return (
     <footer className="mx-auto mt-14 max-w-6xl px-4 pb-10 sm:px-6">
       <Fade inView inViewOnce>
-        <div className="glass grid gap-6 rounded-3xl border border-border/70 p-6 sm:grid-cols-3">
+        <div className="bg-card grid gap-6 rounded-xl border border-border/70 p-6 sm:grid-cols-3">
           {NOTES.map((note) => (
             <div key={note.title}>
               <div className="text-sm font-bold">{note.title}</div>

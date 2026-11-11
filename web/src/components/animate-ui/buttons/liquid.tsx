@@ -82,7 +82,8 @@ function LiquidButtonContent({
           '--liquid-button-fill-height': fillHeight,
           '--liquid-button-delay': '0s',
           background:
-            'linear-gradient(var(--liquid-button-color) 0 0) no-repeat calc(200% - var(--liquid-button-fill-width, -1%)) 100% / 200% var(--liquid-button-fill-height, 0.2em)',
+            // --liquid-x is set in globals.css so the fill sweeps from the right in RTL.
+            'linear-gradient(var(--liquid-button-color) 0 0) no-repeat var(--liquid-x) 100% / 200% var(--liquid-button-fill-height, 0.2em)',
           backgroundColor: 'var(--liquid-button-background-color)',
           transition: `background ${delay} var(--liquid-button-delay, 0s), color ${delay} ${delay}, background-position ${delay} calc(${delay} - var(--liquid-button-delay, 0s))`,
           ...style,

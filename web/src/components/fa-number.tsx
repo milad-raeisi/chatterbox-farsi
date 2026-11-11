@@ -11,10 +11,13 @@ import { cn } from "@/lib/utils";
 export function FaNumber({
   value,
   decimals = 0,
+  suffix,
   className,
 }: {
   value: number;
   decimals?: number;
+  /** Rendered inside the number run (e.g. «٪»), so bidi keeps it on the correct side. */
+  suffix?: string;
   className?: string;
 }) {
   return (
@@ -25,6 +28,7 @@ export function FaNumber({
         decimalSeparator="٫"
         thousandSeparator="٬"
       />
+      {suffix}
     </span>
   );
 }

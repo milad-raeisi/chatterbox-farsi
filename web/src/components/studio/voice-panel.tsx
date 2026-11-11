@@ -19,9 +19,9 @@ import { Panel } from "./panel";
 import { VoiceCloner } from "./voice-cloner";
 
 const AVATAR: Record<string, string> = {
-  female: "from-turquoise to-gold",
-  male: "from-lapis to-turquoise",
-  custom: "from-gold to-lapis",
+  female: "bg-primary",
+  male: "bg-primary",
+  custom: "bg-primary",
 };
 
 type Preview = { playingId: string | null; toggle: (id: string) => void };
@@ -50,7 +50,7 @@ function SelectionRing() {
   return (
     <motion.span
       layoutId="voice-selection"
-      className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-primary bg-primary/[0.07]"
+      className="pointer-events-none absolute inset-0 rounded-lg border-2 border-primary bg-primary/[0.07]"
       transition={{ type: "spring", stiffness: 420, damping: 34 }}
     />
   );
@@ -75,13 +75,13 @@ function VoiceCard({
       tabIndex={0}
       onClick={onSelect}
       onKeyDown={radioKeys(onSelect)}
-      className="group relative cursor-pointer rounded-2xl border border-border/70 bg-background/40 p-3 outline-none transition-colors hover:bg-background/70 focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="group relative cursor-pointer rounded-lg border border-border/70 bg-background/40 p-3 outline-none transition-colors hover:bg-background/70 focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       {selected && <SelectionRing />}
       <div className="relative flex flex-col items-center gap-1.5 text-center">
         <div
           className={cn(
-            "relative mb-1 flex size-14 items-center justify-center rounded-full bg-gradient-to-br text-xl font-black text-white shadow-md",
+            "relative mb-1 flex size-14 items-center justify-center rounded-full text-xl font-black text-white",
             AVATAR[voice.gender ?? "custom"],
           )}
         >
@@ -102,7 +102,7 @@ function VoiceCard({
             event.stopPropagation();
             preview.toggle(voice.id);
           }}
-          className="mt-1 inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/60 px-2.5 py-1 text-xs transition-colors hover:border-primary/40 hover:text-primary"
+          className="mt-1 inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-background/60 px-2.5 py-1 text-xs transition-colors hover:border-primary/40 hover:text-primary"
         >
           {playing ? <Pause size={13} /> : <Play size={13} animateOnHover />}
           {playing ? "توقف" : "شنیدن نمونه"}
@@ -134,7 +134,7 @@ function IconButton({
             onClick();
           }}
           className={cn(
-            "flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground [&_svg]:size-4",
+            "flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground [&_svg]:size-4",
             className,
           )}
         >
@@ -174,12 +174,12 @@ function CustomVoiceRow({
       tabIndex={0}
       onClick={onSelect}
       onKeyDown={radioKeys(onSelect)}
-      className="relative flex cursor-pointer items-center gap-3 rounded-2xl border border-border/70 bg-background/40 p-2.5 outline-none transition-colors hover:bg-background/70 focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="relative flex cursor-pointer items-center gap-3 rounded-lg border border-border/70 bg-background/40 p-2.5 outline-none transition-colors hover:bg-background/70 focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       {selected && <SelectionRing />}
       <div
         className={cn(
-          "relative flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br font-bold text-white",
+          "relative flex size-10 shrink-0 items-center justify-center rounded-full font-bold text-white",
           AVATAR.custom,
         )}
       >
@@ -244,7 +244,7 @@ export function VoicePanel({
 
         <TabsContent value="library" className="mt-3">
           {voices.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border p-6 text-center text-sm leading-7 text-muted-foreground">
+            <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm leading-7 text-muted-foreground">
               {available
                 ? "هنوز صدایی در دسترس نیست."
                 : "صداهای آماده پس از اجرای سرور و نصب مدل اینجا نمایش داده می‌شوند."}

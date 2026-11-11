@@ -15,14 +15,14 @@ function Command({ children }: { children: string }) {
   return (
     <div
       dir="ltr"
-      className="mt-2 flex items-center gap-2 rounded-xl border border-border/70 bg-background/70 py-1.5 ps-3 pe-1.5 font-mono text-[12.5px]"
+      className="mt-2 flex items-center gap-2 rounded-md border border-border/70 bg-background/70 py-1.5 ps-3 pe-1.5 font-mono text-[12.5px]"
     >
       <span className="text-primary select-none">$</span>
       <code className="min-w-0 flex-1 overflow-x-auto py-1 whitespace-nowrap">{children}</code>
       <CopyButton
         content={children}
         aria-label="کپی دستور"
-        className="flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        className="flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
       >
         <CopyButtonIcon icon={<CopyIcon className="size-4" />} copiedIcon={<CheckIcon className="size-4 text-success" />} />
       </CopyButton>
@@ -105,7 +105,7 @@ export function SetupGuide({
   } else if (health?.status === "error") {
     title = "بارگذاری مدل با خطا روبه‌رو شد";
     body = (
-      <pre dir="ltr" className="overflow-x-auto rounded-xl bg-background/70 p-3 font-mono text-xs leading-6 whitespace-pre-wrap text-destructive">
+      <pre dir="ltr" className="overflow-x-auto rounded-md bg-background/70 p-3 font-mono text-xs leading-6 whitespace-pre-wrap text-destructive">
         {health.error}
       </pre>
     );
@@ -117,16 +117,16 @@ export function SetupGuide({
     <motion.section
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass mx-auto mb-6 max-w-6xl rounded-3xl border border-warning/40 p-5 sm:p-6"
+      className="bg-card mx-auto mb-6 max-w-6xl rounded-xl border border-warning/40 p-5 sm:p-6"
       role="status"
     >
       <div className="mb-4 flex items-center gap-3">
-        <span className="flex size-9 items-center justify-center rounded-xl bg-warning/15 text-warning">
+        <span className="flex size-9 items-center justify-center rounded-md bg-warning/15 text-warning">
           <TriangleAlert size={20} animate loop loopDelay={2500} />
         </span>
         <h2 className="text-base font-bold">{title}</h2>
         {reachable && (
-          <Button variant="outline" size="sm" className="ms-auto rounded-xl" onClick={retry} disabled={retrying}>
+          <Button variant="outline" size="sm" className="ms-auto rounded-md" onClick={retry} disabled={retrying}>
             <RefreshCw size={15} animate={retrying} loop={retrying} animateOnHover />
             بررسی دوباره
           </Button>

@@ -8,14 +8,14 @@ type PanelProps = Omit<React.ComponentProps<"section">, "title"> & {
   actions?: React.ReactNode;
 };
 
-/** Frosted-glass card used by every block of the studio. */
+/** Flat card used by every block of the studio: solid surface, thin border, no shadow. */
 export function Panel({ title, icon, actions, className, children, ...props }: PanelProps) {
   return (
-    <section className={cn("glass rounded-3xl border border-border/70", className)} {...props}>
+    <section className={cn("bg-card rounded-xl border border-border/70", className)} {...props}>
       {(title || actions) && (
         <header className="flex items-center gap-2.5 px-5 pt-5 pb-3">
           {icon && (
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary [&_svg]:size-[18px]">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary/12 text-primary [&_svg]:size-[18px]">
               {icon}
             </span>
           )}

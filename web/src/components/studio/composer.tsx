@@ -3,8 +3,6 @@
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { RippleButton, RippleButtonRipples } from "@animate-ui/react/primitives/buttons/ripple";
-import { Shine } from "@animate-ui/react/primitives/effects/shine";
-import { GradientText } from "@animate-ui/react/primitives/texts/gradient";
 
 import { Check } from "@/components/animate-ui/icons/check";
 import { LoaderCircle } from "@/components/animate-ui/icons/loader-circle";
@@ -23,7 +21,6 @@ import { SAMPLE_TEXTS } from "@/lib/presets";
 import { cn } from "@/lib/utils";
 
 import { Panel } from "./panel";
-import { SHIMMER } from "./status-pill";
 
 export type Job = {
   phase: "queued" | "running" | "finishing";
@@ -84,8 +81,8 @@ function ChunkList({
           <li
             key={i}
             className={cn(
-              "flex items-start gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] leading-7 transition-colors duration-300",
-              state === "active" && "bg-background/80 text-foreground shadow-sm",
+              "flex items-start gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] leading-7 transition-colors duration-300",
+              state === "active" && "bg-background/80 text-foreground",
               state === "pending" && "text-muted-foreground/70",
               state === "done" && "text-muted-foreground",
             )}
@@ -134,12 +131,12 @@ function GenerationProgress({ job }: { job: Job }) {
       className="overflow-hidden"
       aria-live="polite"
     >
-      <div className="mt-4 rounded-2xl border border-primary/25 bg-primary/[0.06] p-4">
+      <div className="mt-4 rounded-lg border border-primary/25 bg-primary/[0.06] p-4">
         <div className="flex items-center gap-2.5 text-sm font-medium">
           <LoaderCircle size={18} animate loop className="shrink-0 text-primary" />
-          <GradientText text={label} gradient={SHIMMER} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} />
+          <span>{label}</span>
           <span className="ms-auto inline-flex items-center text-xs text-muted-foreground">
-            <FaNumber value={pct} />٪
+            <FaNumber value={pct} suffix="٪" />
           </span>
         </div>
         <Progress value={pct} className="mt-3 h-2" />
@@ -170,13 +167,12 @@ function GenerateButton({
   const disabled = running || disabledReason !== null;
 
   const button = (
-    <Shine enable={!disabled} loop loopDelay={3800} duration={1100} color="white" opacity={0.35} className="rounded-2xl">
-      <RippleButton
+    <RippleButton
         type="button"
         onClick={onClick}
         disabled={disabled}
         hoverScale={1.02}
-        className="relative inline-flex h-12 w-full items-center justify-center gap-2.5 overflow-hidden rounded-2xl bg-gradient-to-l from-turquoise via-primary to-lapis px-6 text-[15px] font-bold text-white shadow-lg shadow-primary/30 outline-none focus-visible:ring-4 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-55 disabled:shadow-none sm:w-auto"
+        className="relative inline-flex h-12 w-full items-center justify-center gap-2.5 overflow-hidden rounded-lg bg-primary px-6 text-[15px] font-bold text-primary-foreground transition-colors hover:bg-primary/90 outline-none focus-visible:ring-4 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-55 sm:w-auto"
       >
         {running ? <LoaderCircle size={20} animate loop /> : <Sparkles size={20} animateOnHover />}
         {running ? "در حال ساخت…" : "ساخت صدا"}
@@ -187,14 +183,13 @@ function GenerateButton({
         )}
         <RippleButtonRipples color="rgba(255,255,255,0.5)" />
       </RippleButton>
-    </Shine>
   );
 
   if (running || disabledReason === null) return button;
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <span tabIndex={0} className="flex w-full rounded-2xl outline-none sm:inline-flex sm:w-auto">
+        <span tabIndex={0} className="flex w-full rounded-lg outline-none sm:inline-flex sm:w-auto">
           {button}
         </span>
       </TooltipTrigger>
@@ -250,7 +245,7 @@ export function Composer({
             disabled={running}
             onClick={() => onTextChange(sample.text)}
             className={cn(
-              "rounded-full border border-border/70 bg-background/50 px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:bg-primary/10 hover:text-foreground disabled:pointer-events-none disabled:opacity-50",
+              "rounded-md border border-border/70 bg-background/50 px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:bg-primary/10 hover:text-foreground disabled:pointer-events-none disabled:opacity-50",
               text === sample.text && "border-primary/50 bg-primary/12 text-foreground",
             )}
           >
@@ -261,7 +256,7 @@ export function Composer({
 
       <div
         className={cn(
-          "relative rounded-2xl border border-input bg-background/60 transition-[border-color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/25",
+          "relative rounded-lg border border-input bg-background/60 transition-[border-color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/25",
           over && "border-destructive/60 focus-within:border-destructive focus-within:ring-destructive/20",
         )}
       >
@@ -274,7 +269,7 @@ export function Composer({
           spellCheck={false}
           aria-label="متن برای تبدیل به گفتار"
           placeholder="متن فارسی خود را اینجا بنویسید یا بچسبانید…"
-          className="block min-h-48 w-full resize-y rounded-t-2xl bg-transparent px-4 pt-4 pb-3 text-[17px] leading-9 outline-none sm:min-h-56"
+          className="block min-h-48 w-full resize-y rounded-t-lg bg-transparent px-4 pt-4 pb-3 text-[17px] leading-9 outline-none sm:min-h-56"
         />
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 px-4 py-2.5 text-xs text-muted-foreground">
           <span className={cn("inline-flex items-center gap-1", over && "font-medium text-destructive")}>
@@ -315,7 +310,7 @@ export function Composer({
           <AnimatePresence>
             {running && (
               <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
-                <Button variant="ghost" onClick={onCancel} className="h-12 rounded-2xl px-4">
+                <Button variant="ghost" onClick={onCancel} className="h-12 rounded-lg px-4">
                   <X animateOnHover />
                   لغو
                 </Button>
@@ -337,7 +332,7 @@ export function Composer({
               پیش‌نمایش خوانش: متن پس از یکسان‌سازی، در {toFa(previewChunks.length)} بخش خوانده می‌شود
             </AccordionTrigger>
             <AccordionContent>
-              <ChunkList chunks={previewChunks} className="max-h-60 rounded-2xl bg-muted/40 p-1.5" />
+              <ChunkList chunks={previewChunks} className="max-h-60 rounded-lg bg-muted/40 p-1.5" />
             </AccordionContent>
           </AccordionItem>
         </Accordion>

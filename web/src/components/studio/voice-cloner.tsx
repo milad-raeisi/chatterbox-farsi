@@ -48,7 +48,7 @@ function RecordTile({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "relative flex h-36 flex-col items-center justify-center gap-2 overflow-hidden rounded-2xl border border-dashed border-border bg-background/40 p-3 text-sm outline-none transition-colors hover:border-primary/50 hover:bg-primary/5 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
+        "relative flex h-36 flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed border-border bg-background/40 p-3 text-sm outline-none transition-colors hover:border-primary/50 hover:bg-primary/5 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
         recording && "border-solid border-destructive/50 bg-destructive/5 hover:border-destructive/60 hover:bg-destructive/10",
       )}
     >
@@ -56,8 +56,8 @@ function RecordTile({
         {recording && <motion.span style={{ scale, opacity }} className="absolute inset-0 rounded-full bg-destructive/40" />}
         <span
           className={cn(
-            "relative flex size-12 items-center justify-center rounded-full bg-gradient-to-br from-turquoise to-lapis text-white shadow-lg",
-            recording && "from-rose-500 to-red-600",
+            "relative flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground",
+            recording && "bg-destructive",
           )}
         >
           {recording ? <span className="size-4 rounded-[5px] bg-white" /> : <Mic size={22} animateOnHover />}
@@ -99,7 +99,7 @@ function UploadTile({ disabled, onFile }: { disabled: boolean; onFile: (file: Fi
         if (file && !disabled) onFile(file);
       }}
       className={cn(
-        "relative flex h-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-border bg-background/40 p-3 text-center text-sm outline-none transition-colors hover:border-primary/50 hover:bg-primary/5 focus-visible:ring-3 focus-visible:ring-ring/50",
+        "relative flex h-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-background/40 p-3 text-center text-sm outline-none transition-colors hover:border-primary/50 hover:bg-primary/5 focus-visible:ring-3 focus-visible:ring-ring/50",
         dragging && "border-primary bg-primary/10",
         disabled && "pointer-events-none opacity-50",
       )}
@@ -129,7 +129,7 @@ function SamplePreview({ sample, onDiscard }: { sample: Sample; onDiscard: () =>
   const [progress, setProgress] = React.useState(0);
 
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-border/70 bg-background/50 p-3">
+    <div className="flex items-center gap-3 rounded-lg border border-border/70 bg-background/50 p-3">
       <audio
         ref={audioRef}
         src={sample.url}
@@ -145,11 +145,11 @@ function SamplePreview({ sample, onDiscard }: { sample: Sample; onDiscard: () =>
         type="button"
         aria-label={playing ? "توقف" : "پخش نمونه"}
         onClick={() => (playing ? audioRef.current?.pause() : void audioRef.current?.play())}
-        className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/30"
+        className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground"
       >
         {playing ? <Pause size={18} /> : <Play size={18} />}
       </button>
-      <div dir="ltr" className="flex h-10 min-w-0 flex-1 items-center gap-[2px]">
+      <div className="flex h-10 min-w-0 flex-1 items-center gap-[2px]">
         {sample.peaks.map((peak, i) => (
           <motion.span
             key={i}
@@ -169,7 +169,7 @@ function SamplePreview({ sample, onDiscard }: { sample: Sample; onDiscard: () =>
         type="button"
         onClick={onDiscard}
         aria-label="ضبط دوباره"
-        className="flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        className="flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
       >
         <RotateCcw size={16} animateOnHover />
       </button>
@@ -244,7 +244,7 @@ export function VoiceCloner({ disabled, onCreated }: { disabled: boolean; onCrea
       <p className="text-sm leading-7 text-muted-foreground">
         ۵ تا ۱۰ ثانیه گفتار واضح، در محیط ساکت و بدون موسیقی. می‌توانید این متن را با لحن طبیعی بخوانید:
       </p>
-      <blockquote className="rounded-2xl border-s-2 border-primary/60 bg-muted/50 px-3.5 py-2.5 text-sm leading-7">
+      <blockquote className="rounded-lg border-s-2 border-primary/60 bg-muted/50 px-3.5 py-2.5 text-sm leading-7">
         {CLONE_PROMPT}
       </blockquote>
 
@@ -264,7 +264,7 @@ export function VoiceCloner({ disabled, onCreated }: { disabled: boolean; onCrea
               maxLength={40}
               placeholder="نام صدا، مثلاً «صدای من»"
               aria-label="نام صدا"
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
             <label className="flex cursor-pointer items-start gap-2.5 text-xs leading-6 text-muted-foreground">
               <Checkbox checked={consent} onCheckedChange={(v) => setConsent(v === true)} className="mt-1" />
@@ -274,7 +274,7 @@ export function VoiceCloner({ disabled, onCreated }: { disabled: boolean; onCrea
               type="button"
               onClick={save}
               disabled={!consent || busy}
-              className="h-11 w-full rounded-xl text-sm font-bold"
+              className="h-11 w-full rounded-md text-sm font-bold"
             >
               {busy ? <LoaderCircle size={18} animate loop /> : <WandSparkles size={18} animateOnHover />}
               ساخت و ذخیرهٔ صدا
@@ -306,7 +306,7 @@ export function VoiceCloner({ disabled, onCreated }: { disabled: boolean; onCrea
         </div>
       )}
       {(error || recorder.error) && (
-        <p role="alert" className="rounded-xl bg-destructive/10 px-3 py-2 text-xs leading-6 text-destructive">
+        <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-xs leading-6 text-destructive">
           {error ?? recorder.error}
         </p>
       )}

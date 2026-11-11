@@ -66,7 +66,7 @@ function ParamSlider({
           {label}
         </label>
         <InfoTip>{hint}</InfoTip>
-        <span className="ms-auto inline-flex items-center gap-1 rounded-lg bg-muted px-2 py-0.5 text-xs">
+        <span className="ms-auto inline-flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-xs">
           <FaNumber value={value} decimals={decimals} />
           {unit && <span className="text-muted-foreground">{unit}</span>}
         </span>
@@ -115,13 +115,13 @@ function SeedControl({ seed, onChange }: { seed: number | null; onChange: (seed:
                   const n = parseInt(FA_TO_LATIN(event.target.value).replace(/\D/g, ""), 10);
                   onChange(Number.isFinite(n) ? Math.min(n, 2 ** 31 - 1) : 0);
                 }}
-                className="h-9 rounded-xl text-center font-digits"
+                className="h-9 rounded-md text-center font-digits"
               />
               <Button
                 type="button"
                 variant="outline"
                 size="icon"
-                className="size-9 shrink-0 rounded-xl"
+                className="size-9 shrink-0 rounded-md"
                 aria-label="بذر تصادفی"
                 onClick={() => onChange(randomSeed())}
               >
@@ -159,7 +159,7 @@ export function SettingsPanel({
         <Button
           variant="ghost"
           size="sm"
-          className="h-8 gap-1.5 rounded-lg text-xs text-muted-foreground"
+          className="h-8 gap-1.5 rounded-md text-xs text-muted-foreground"
           onClick={() => onChange({ ...DEFAULT_PARAMS, spell_numbers: params.spell_numbers })}
         >
           <RotateCcw size={14} animateOnHover />
@@ -247,7 +247,7 @@ export function SettingsPanel({
       <SeedControl seed={params.seed} onChange={(seed) => set("seed", seed)} />
 
       {device === "mps" && (
-        <p className="mt-5 rounded-2xl bg-warning/10 px-3.5 py-2.5 text-xs leading-6 text-muted-foreground">
+        <p className="mt-5 rounded-lg bg-warning/10 px-3.5 py-2.5 text-xs leading-6 text-muted-foreground">
           مدل روی پردازندهٔ گرافیکی Apple Silicon (MPS) اجرا می‌شود. به گفتهٔ سازندهٔ مدل کیفیت روی MPS
           پایین‌تر است؛ برای کیفیت بهتر سرور را بدون <span dir="ltr">AVA_DEVICE=mps</span> اجرا کنید.
         </p>

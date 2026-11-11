@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { type VariantProps } from "class-variance-authority"
+import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
 import { ToggleGroup as ToggleGroupPrimitive } from "@animate-ui/react/primitives/radix-ui"
 
@@ -28,8 +29,12 @@ function ToggleGroup({
   VariantProps<typeof toggleVariants> & {
     spacing?: number
   }) {
+  // Animate UI paints the selected item's highlight with the colour it measured once; remount
+  // when the theme flips so the highlight picks up the new palette (else: dark box in light mode).
+  const { resolvedTheme } = useTheme()
   return (
     <ToggleGroupPrimitive.Root
+      key={resolvedTheme ?? "initial"}
       data-slot="toggle-group"
       data-variant={variant}
       data-size={size}
@@ -70,7 +75,7 @@ function ToggleGroupItem({
           size: context.size || size,
         }),
         "w-auto min-w-0 shrink-0 px-3 focus:z-10 focus-visible:z-10",
-        "data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none data-[spacing=0]:first:rounded-l-md data-[spacing=0]:last:rounded-r-md data-[spacing=0]:data-[variant=outline]:border-l-0 data-[spacing=0]:data-[variant=outline]:first:border-l",
+        "data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none data-[spacing=0]:first:rounded-s-md data-[spacing=0]:last:rounded-e-md data-[spacing=0]:data-[variant=outline]:border-s-0 data-[spacing=0]:data-[variant=outline]:first:border-s",
         className
       )}
       {...props}

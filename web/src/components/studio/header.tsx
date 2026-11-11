@@ -30,8 +30,8 @@ export function Header({
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/55 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:px-6">
-        <a href="#" className="flex items-center gap-3 rounded-2xl outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
-          <span className="relative flex size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-turquoise via-primary to-lapis text-white shadow-lg shadow-primary/25">
+        <a href="#" className="flex items-center gap-3 rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+          <span className="relative flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <AudioLines size={22} animate={busy} loop={busy} animateOnHover />
           </span>
           <span className="leading-tight">
@@ -45,7 +45,7 @@ export function Header({
             <TooltipTrigger asChild>
               <span
                 tabIndex={0}
-                className="hidden h-8 items-center gap-1.5 rounded-full border border-border/70 bg-background/50 px-3 text-xs text-muted-foreground outline-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:inline-flex"
+                className="hidden h-8 items-center gap-1.5 rounded-md border border-border/70 bg-background/50 px-3 text-xs text-muted-foreground outline-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:inline-flex"
               >
                 <WifiOff size={14} animateOnHover />
                 آفلاین

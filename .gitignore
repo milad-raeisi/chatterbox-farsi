@@ -8,3 +8,6 @@ backend/models/
 backend/data/
 
 .DS_Store
+
+# start.sh / stop.sh runtime files (PID, log)
+.run/

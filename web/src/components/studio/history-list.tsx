@@ -32,7 +32,7 @@ function RowAction({
   children: React.ReactNode;
 }) {
   const classes = cn(
-    "flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground [&_svg]:size-4",
+    "flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground [&_svg]:size-4",
     className,
   );
   return (
@@ -74,7 +74,7 @@ function HistoryRow({
   return (
     <div
       className={cn(
-        "group flex items-center gap-3 rounded-2xl p-2.5 transition-colors hover:bg-background/60",
+        "group flex items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-background/60",
         active && "bg-primary/[0.07]",
       )}
     >
@@ -141,7 +141,7 @@ export function HistoryList({
       }
     >
       {items.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-border p-8 text-center text-sm leading-7 text-muted-foreground">
+        <div className="rounded-lg border border-dashed border-border p-8 text-center text-sm leading-7 text-muted-foreground">
           صداهایی که می‌سازید اینجا ذخیره می‌شوند؛ روی همین دستگاه، در پوشهٔ <span dir="ltr">backend/data</span>.
         </div>
       ) : (
@@ -167,7 +167,7 @@ export function HistoryList({
             </AnimatePresence>
           </ul>
           {items.length > limit && (
-            <Button variant="ghost" className="mt-2 w-full rounded-xl text-xs" onClick={() => setLimit((l) => l + PAGE)}>
+            <Button variant="ghost" className="mt-2 w-full rounded-md text-xs" onClick={() => setLimit((l) => l + PAGE)}>
               نمایش موارد بیشتر
             </Button>
           )}

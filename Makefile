@@ -1,4 +1,4 @@
-.PHONY: setup models web start dev dev-api dev-web test
+.PHONY: setup models web start stop dev dev-api dev-web test
 
 # One-time setup (needs internet).
 setup:
@@ -13,7 +13,10 @@ web:
 
 # Fully offline from here on.
 start:
-	cd backend && uv run python -m app --open
+	./start.sh
+
+stop:
+	./stop.sh
 
 dev:
 	$(MAKE) -j2 dev-api dev-web

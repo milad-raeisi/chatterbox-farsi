@@ -176,11 +176,12 @@ def _split_long(sentence: str, limit: int) -> list[str]:
     return pieces
 
 
-def chunk_text(text: str, max_chars: int = 180, min_chars: int = 30) -> list[Chunk]:
-    """One sentence per chunk, as the model card recommends for quality. Sentences shorter than
-    ``min_chars`` (e.g. «سلام!») are merged with a neighbour, because very short inputs make the
-    model stop early or add stray sounds; sentences longer than ``max_chars`` are split at
-    clause punctuation."""
+def chunk_text(text: str, max_chars: int = 180, min_chars: int = 15) -> list[Chunk]:
+    """One sentence per chunk, as the model card recommends for quality. Only fragments shorter
+    than ``min_chars`` (e.g. «سلام!») are merged with a neighbour, because very short inputs make
+    the model stop early or add stray sounds. The threshold stays low on purpose: merging a
+    question with the next sentence carried its rising intonation over (heard in testing).
+    Sentences longer than ``max_chars`` are split at clause punctuation."""
     chunks: list[Chunk] = []
     for paragraph in (p.strip() for p in text.split("\n")):
         if not paragraph:

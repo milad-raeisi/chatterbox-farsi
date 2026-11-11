@@ -32,23 +32,23 @@ function Waveform({
   progress: ReturnType<typeof useMotionValue<number>>;
   onSeek: (fraction: number) => void;
 }) {
-  const clip = useTransform(progress, (p) => `inset(0 ${(1 - clamp(p)) * 100}% 0 0)`);
+  // Right-to-left like the rest of the interface: time starts at the right edge.
+  const clip = useTransform(progress, (p) => `inset(0 0 0 ${(1 - clamp(p)) * 100}%)`);
   const head = useTransform(progress, (p) => `${clamp(p) * 100}%`);
   const dragging = React.useRef(false);
   const bars = peaks ?? Array.from({ length: BARS }, (_, i) => 0.25 + 0.2 * Math.abs(Math.sin(i * 0.45)));
 
   const seekFrom = (event: React.PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    onSeek(clamp((event.clientX - rect.left) / rect.width));
+    onSeek(clamp((rect.right - event.clientX) / rect.width));
   };
 
   return (
-    // Playback time runs left to right even in RTL interfaces (like a tape), so this stays LTR.
     <div
-      dir="ltr"
       role="slider"
       tabIndex={0}
       aria-label="موقعیت پخش"
+      aria-orientation="horizontal"
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(progress.get() * 100)}
@@ -60,10 +60,11 @@ function Waveform({
       onPointerMove={(event) => dragging.current && seekFrom(event)}
       onPointerUp={() => (dragging.current = false)}
       onKeyDown={(event) => {
-        if (event.key === "ArrowRight") onSeek(clamp(progress.get() + 0.05));
-        if (event.key === "ArrowLeft") onSeek(clamp(progress.get() - 0.05));
+        if (event.key === "ArrowLeft") onSeek(clamp(progress.get() + 0.05));
+        if (event.key === "ArrowRight") onSeek(clamp(progress.get() - 0.05));
+        if (event.key === "Home") onSeek(0);
       }}
-      className="group relative h-20 cursor-pointer touch-none rounded-xl outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="group relative h-20 cursor-pointer touch-none rounded-md outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       <div className={cn("absolute inset-0 flex items-center gap-[2px]", !peaks && "animate-pulse")}>
         {bars.map((peak, i) => (
@@ -82,15 +83,15 @@ function Waveform({
           {peaks.map((peak, i) => (
             <span
               key={i}
-              className="flex-1 rounded-full bg-gradient-to-t from-lapis via-primary to-turquoise"
+              className="flex-1 rounded-full bg-primary"
               style={{ height: `${Math.max(6, peak * 100)}%` }}
             />
           ))}
         </motion.div>
       )}
       <motion.span
-        style={{ left: head }}
-        className="pointer-events-none absolute inset-y-1 w-0.5 -translate-x-1/2 rounded-full bg-foreground/70 opacity-0 transition-opacity group-hover:opacity-100"
+        style={{ right: head }}
+        className="pointer-events-none absolute inset-y-1 w-0.5 translate-x-1/2 rounded-full bg-foreground/70 opacity-0 transition-opacity group-hover:opacity-100"
       />
     </div>
   );
@@ -104,7 +105,7 @@ function PlayButton({ playing, onClick }: { playing: boolean; onClick: () => voi
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.92 }}
       aria-label={playing ? "توقف" : "پخش"}
-      className="relative flex size-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-turquoise via-primary to-lapis text-white shadow-xl shadow-primary/30 outline-none focus-visible:ring-4 focus-visible:ring-ring/40"
+      className="relative flex size-16 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground outline-none focus-visible:ring-4 focus-visible:ring-ring/40"
     >
       {playing && (
         <motion.span
@@ -213,7 +214,7 @@ export function ResultPlayer({ item, autoPlay = false }: { item: HistoryItem; au
         <PlayButton playing={playing} onClick={toggle} />
         <div className="min-w-0 flex-1">
           <Waveform peaks={peaks} progress={progress} onSeek={seek} />
-          <div dir="ltr" className="mt-1.5 flex justify-between text-xs text-muted-foreground">
+          <div className="mt-1.5 flex justify-between text-xs text-muted-foreground">
             <span>{formatClock(time)}</span>
             <span>{formatClock(duration)}</span>
           </div>
@@ -243,12 +244,12 @@ export function ResultPlayer({ item, autoPlay = false }: { item: HistoryItem; au
         <div className="ms-auto flex items-center gap-2">
           <CopyButton
             content={item.text}
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-border/70 bg-background/50 px-3 text-sm transition-colors hover:bg-muted"
+            className="inline-flex h-10 items-center gap-1.5 rounded-md border border-border/70 bg-background/50 px-3 text-sm transition-colors hover:bg-muted"
           >
             <CopyButtonIcon icon={<Copy size={16} />} copiedIcon={<Check size={16} className="text-success" />} />
             کپی متن
           </CopyButton>
-          <LiquidButton asChild className="h-10 rounded-lg font-bold">
+          <LiquidButton asChild className="h-10 rounded-md font-bold">
             <a href={api.downloadUrl(item)} download>
               <Download size={16} animateOnHover />
               دانلود WAV
@@ -258,16 +259,16 @@ export function ResultPlayer({ item, autoPlay = false }: { item: HistoryItem; au
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2 text-xs text-muted-foreground">
-        <span className="rounded-full bg-muted/70 px-2.5 py-1">مدت: {formatSeconds(item.duration)}</span>
-        <span className="rounded-full bg-muted/70 px-2.5 py-1">زمان ساخت: {formatSeconds(item.elapsed)}</span>
+        <span className="rounded-md bg-muted/70 px-2.5 py-1">مدت: {formatSeconds(item.duration)}</span>
+        <span className="rounded-md bg-muted/70 px-2.5 py-1">زمان ساخت: {formatSeconds(item.elapsed)}</span>
         {speed && (
-          <span className="rounded-full bg-muted/70 px-2.5 py-1">
+          <span className="rounded-md bg-muted/70 px-2.5 py-1">
             {speed >= 1
               ? `${toFa(speed.toFixed(1))}× سریع‌تر از زمان واقعی`
               : `${toFa((1 / speed).toFixed(1))}× کندتر از زمان واقعی`}
           </span>
         )}
-        <span className="rounded-full bg-muted/70 px-2.5 py-1">{toFa(item.chunks)} بخش</span>
+        <span className="rounded-md bg-muted/70 px-2.5 py-1">{toFa(item.chunks)} بخش</span>
       </div>
     </Panel>
   );

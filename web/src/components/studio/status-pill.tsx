@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "motion/react";
-import { GradientText } from "@animate-ui/react/primitives/texts/gradient";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import type { Health } from "@/lib/api";
@@ -16,10 +15,6 @@ const DOT: Record<Tone, string> = {
   warning: "bg-warning",
   danger: "bg-destructive",
 };
-
-// A shimmer made with GradientText: it keeps the text in one run, so Persian letters stay joined.
-export const SHIMMER =
-  "linear-gradient(90deg, var(--muted-foreground) 0%, var(--foreground) 12%, var(--muted-foreground) 24%, var(--muted-foreground) 100%)";
 
 function describe(health: Health | null, reachable: boolean | null) {
   if (reachable === null) return { tone: "muted" as Tone, label: "در حال اتصال…", busy: true };
@@ -46,7 +41,7 @@ export function StatusPill({ health, reachable }: { health: Health | null; reach
         <motion.button
           layout
           type="button"
-          className="inline-flex h-8 items-center gap-2 rounded-full border border-border/70 bg-background/50 px-3 text-xs font-medium"
+          className="inline-flex h-8 items-center gap-2 rounded-md border border-border/70 bg-background/50 px-3 text-xs font-medium"
           aria-label={`وضعیت مدل: ${label}`}
         >
           <span className="relative flex size-2">
@@ -55,7 +50,7 @@ export function StatusPill({ health, reachable }: { health: Health | null; reach
             )}
             <span className={cn("relative inline-flex size-2 rounded-full", DOT[tone])} />
           </span>
-          {busy ? <GradientText text={label} gradient={SHIMMER} transition={{ duration: 9, repeat: Infinity, ease: "linear" }} /> : label}
+          <span className={cn(busy && "animate-pulse")}>{label}</span>
           {device && (
             <span className="hidden text-muted-foreground sm:inline" dir="ltr">
               {device}
